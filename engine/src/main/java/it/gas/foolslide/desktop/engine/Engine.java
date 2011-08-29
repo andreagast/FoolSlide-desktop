@@ -18,6 +18,7 @@ import javax.persistence.TypedQuery;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -65,17 +66,13 @@ public class Engine {
 			URLConnection conn = url.openConnection();
 			conn.connect();
 			Reader r = new InputStreamReader(conn.getInputStream());
-			JSONParser p = new JSONParser();
-			Object obj = p.parse(r);
+			Object obj = JSONValue.parse(r);
 			tx.begin();
 			fillDB((JSONObject) obj);
 			tx.commit();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
