@@ -7,6 +7,9 @@
 	
 	<persistence-unit name="enginePU" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>it.gas.foolslide.desktop.engine.persistence.Comic</class>
+		<class>it.gas.foolslide.desktop.engine.persistence.Chapter</class>
+		<class>it.gas.foolslide.desktop.engine.persistence.Page</class>
 		<properties>
 			<property name="eclipselink.logging.level" value="WARNING"/>
 			<property name="eclipselink.target-database" value="DERBY"/>
