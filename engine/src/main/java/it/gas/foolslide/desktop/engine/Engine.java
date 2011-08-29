@@ -19,7 +19,6 @@ import javax.persistence.TypedQuery;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class Engine {
@@ -59,21 +58,27 @@ public class Engine {
 	}
 	
 	public void refresh() {
-		//retrieve the comics
+		System.out.println("Start refreshing...");
 		URL url;
 		try {
 			url = new URL("http://foolrulez.org/slide/api/reader/comics");
 			URLConnection conn = url.openConnection();
 			conn.connect();
+			System.out.println("Connected.");
 			Reader r = new InputStreamReader(conn.getInputStream());
-			Object obj = JSONValue.parse(r);
+			System.out.println("Started parsing...");
+			Object obj = JSONValue.parseWithException(r);
+			System.out.println("Parsed.");
+			r.close();
 			tx.begin();
 			fillDB((JSONObject) obj);
 			tx.commit();
+			System.out.println("Saved.");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
