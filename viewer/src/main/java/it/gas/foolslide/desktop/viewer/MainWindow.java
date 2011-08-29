@@ -14,6 +14,8 @@ public class MainWindow extends JFrame {
 		super("FoOlSlide Desktop");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		initComponents();
+		pack();
+		setLocationRelativeTo(null);
 	}
 	
 	private void initComponents() {

@@ -13,4 +13,21 @@
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   </dependencies>
+  <build>
+  	<plugins>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-jar-plugin</artifactId>
+  			<version>2.3.2</version>
+  			<configuration>
+  				<archive>
+  					<manifest>
+  						<addClasspath>true</addClasspath>
+  						<mainClass>it.gas.foolslide.desktop.viewer.Main</mainClass>
+  					</manifest>
+  				</archive>
+			</configuration>
+  		</plugin>
+  	</plugins>
+  </build>
 </project>
