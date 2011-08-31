@@ -2,6 +2,7 @@ package it.gas.foolslide.desktop.viewer;
 
 import it.gas.foolslide.desktop.engine.Engine;
 import it.gas.foolslide.desktop.engine.persistence.Comic;
+import it.gas.foolslide.desktop.viewer.comics.JComicsList;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -9,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
@@ -18,7 +18,7 @@ public class PanelComics extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private JScrollPane scroll;
-	private JList comicsList;
+	private JComicsList comicsList;
 	private JButton refreshButton;
 	
 	public PanelComics() {
@@ -27,7 +27,7 @@ public class PanelComics extends JPanel {
 	
 	private void initComponents() {
 		setLayout(new BorderLayout());
-		comicsList = new JList();
+		comicsList = new JComicsList();
 		scroll = new JScrollPane(comicsList);
 		add(scroll);
 		

@@ -12,6 +12,12 @@
   		<artifactId>engine</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>com.miglayout</groupId>
+  		<artifactId>miglayout</artifactId>
+  		<version>3.7.4</version>
+  		<classifier>swing</classifier>
+  	</dependency>
   </dependencies>
   <build>
   	<plugins>
