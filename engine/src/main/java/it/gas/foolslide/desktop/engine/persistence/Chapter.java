@@ -94,4 +94,17 @@ public class Chapter {
 		this.pages = pages;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder build = new StringBuilder();
+		build.append(getChapter());
+		if (getSubchapter() != 0) {
+			build.append('.');
+			build.append(getSubchapter());
+		}
+		build.append(": ");
+		build.append(getName());
+		return build.toString();
+	}
+	
 }

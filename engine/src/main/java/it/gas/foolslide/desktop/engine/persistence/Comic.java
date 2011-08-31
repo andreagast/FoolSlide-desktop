@@ -2,18 +2,24 @@ package it.gas.foolslide.desktop.engine.persistence;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQuery(name = "getAll", query = "SELECT c FROM Comic c")
+@NamedQueries({
+		@NamedQuery(name = "getAll", query = "SELECT c FROM Comic c"),
+		@NamedQuery(name = "deleteAll", query = "DELETE FROM Comic c")
+})
 public class Comic {
 	@Id
 	private int id;
 	private String name;
+	@Column(length = 5000)
 	private String description;
 	private String thumb_url;
 	@OneToMany(orphanRemoval = true)
@@ -58,6 +64,11 @@ public class Comic {
 
 	public void setChapters(List<Chapter> chapters) {
 		this.chapters = chapters;
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
 	}
 
 }
