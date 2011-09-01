@@ -21,6 +21,8 @@ public class ComicCellRenderer extends JPanel implements ListCellRenderer {
 	private JTextArea description;
 
 	public ComicCellRenderer() {
+		super();
+		setOpaque(true);
 		initComponents();
 	}
 	

@@ -19,9 +19,12 @@ public class PanelComics extends JPanel {
 	
 	private JScrollPane scroll;
 	private JComicsList comicsList;
-	private JButton refreshButton;
+	private JButton btnInitialize, btnChapters;
 	
-	public PanelComics() {
+	private Switcher switcher;
+	
+	public PanelComics(Switcher s) {
+		this.switcher = s;
 		initComponents();
 	}
 	
@@ -31,29 +34,50 @@ public class PanelComics extends JPanel {
 		scroll = new JScrollPane(comicsList);
 		add(scroll);
 		
+		JPanel buttoner = new JPanel();
+		add(buttoner, BorderLayout.SOUTH);
+		
 		//button
-		refreshButton = new JButton("Refresh list");
-		add(refreshButton, BorderLayout.SOUTH);
-		refreshButton.addActionListener(new ActionListener() {
+		btnInitialize = new JButton("Refresh list");
+		buttoner.add(btnInitialize);
+		btnInitialize.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				refreshButton.setEnabled(false);
+				lockForm(true);
 				new Loader().execute();
 			}
 		});
+		
+		btnChapters = new JButton("Next >");
+		buttoner.add(btnChapters);
+		btnChapters.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (comicsList.isSelectionEmpty())
+					return;
+				Comic c = (Comic) comicsList.getSelectedValue();
+				switcher.showChapters(c);
+			}
+		});
+	}
+	
+	private void lockForm(boolean b) {
+		btnInitialize.setEnabled(!b);
+		btnChapters.setEnabled(!b);
+		comicsList.setEnabled(!b);
 	}
 	
 	private class Loader extends SwingWorker<Void, Void> {
 
 		@Override
 		protected Void doInBackground() throws Exception {
-			Engine.getInstance().refresh();
+			Engine.getInstance().initialize();
 			return null;
 		}
 		
 		@Override
 		protected void done() {
-			refreshButton.setEnabled(true);
+			lockForm(false);
 			List<Comic> l = Engine.getInstance().getComics();
 			comicsList.setListData(l.toArray());
 		}
