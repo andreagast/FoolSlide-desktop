@@ -1,16 +1,19 @@
 package it.gas.foolslide.desktop.engine.persistence;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = "getChaptersById", query = "SELECT c FROM Chapter c WHERE c.comic_id = ?1"),
+	@NamedQuery(name = "delChapters", query = "DELETE FROM Chapter c")
+})
 public class Chapter {
 	@Id
 	private int id;
+	private int comic_id;
 	private int team_id;
 	private int joint_id;
 	private int chapter;
@@ -18,9 +21,6 @@ public class Chapter {
 	private int volume;
 	private String language;
 	private String name;
-	@OneToMany(orphanRemoval = true)
-	@JoinColumn(name = "chapter_id")
-	private List<Page> pages;
 
 	public int getId() {
 		return id;
@@ -28,6 +28,14 @@ public class Chapter {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getComic_id() {
+		return comic_id;
+	}
+
+	public void setComic_id(int comic_id) {
+		this.comic_id = comic_id;
 	}
 
 	public int getTeam_id() {
@@ -86,14 +94,6 @@ public class Chapter {
 		this.name = name;
 	}
 
-	public List<Page> getPages() {
-		return pages;
-	}
-
-	public void setPages(List<Page> pages) {
-		this.pages = pages;
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder build = new StringBuilder();
@@ -106,5 +106,5 @@ public class Chapter {
 		build.append(getName());
 		return build.toString();
 	}
-	
+
 }

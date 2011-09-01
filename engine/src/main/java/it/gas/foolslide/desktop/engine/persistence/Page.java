@@ -2,11 +2,18 @@ package it.gas.foolslide.desktop.engine.persistence;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = "getPagesById", query = "SELECT p FROM Page p WHERE p.chapter_id = ?1"),
+	@NamedQuery(name = "delPages", query = "DELETE FROM Page p")
+})
 public class Page {
 	@Id
 	private int id;
+	private int chapter_id;
 	// image of the page
 	private String url;
 	private long size;
@@ -24,6 +31,14 @@ public class Page {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getChapter_id() {
+		return chapter_id;
+	}
+
+	public void setChapter_id(int chapter_id) {
+		this.chapter_id = chapter_id;
 	}
 
 	public String getUrl() {

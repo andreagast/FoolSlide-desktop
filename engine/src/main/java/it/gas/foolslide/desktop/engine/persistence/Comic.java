@@ -4,15 +4,12 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;
 import javax.persistence.Transient;
@@ -20,8 +17,10 @@ import javax.persistence.Transient;
 import org.slf4j.LoggerFactory;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "getAll", query = "SELECT c FROM Comic c"),
-		@NamedQuery(name = "deleteAll", query = "DELETE FROM Comic c") })
+@NamedQueries({
+	@NamedQuery(name = "getComics", query = "SELECT c FROM Comic c"),
+	@NamedQuery(name = "delComics", query = "DELETE FROM Comic c")
+})
 public class Comic {
 	@Id
 	private int id;
@@ -29,9 +28,6 @@ public class Comic {
 	@Column(length = 5000)
 	private String description;
 	private String thumb_url;
-	@OneToMany(orphanRemoval = true)
-	@JoinColumn(name = "comic_id")
-	private List<Chapter> chapters;
 	@Transient
 	private Image thumb;
 
@@ -65,14 +61,6 @@ public class Comic {
 
 	public void setThumb_url(String thumb_url) {
 		this.thumb_url = thumb_url;
-	}
-
-	public List<Chapter> getChapters() {
-		return chapters;
-	}
-
-	public void setChapters(List<Chapter> chapters) {
-		this.chapters = chapters;
 	}
 
 	@Override
