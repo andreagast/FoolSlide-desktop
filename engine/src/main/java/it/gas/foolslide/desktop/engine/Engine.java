@@ -51,7 +51,7 @@ public class Engine {
 	private void purgeDB() {
 		Query query = em.createNamedQuery("deleteAll");
 		int results = query.executeUpdate();
-		logger.debug("Deleted " + results + " from the DB.");
+		logger.debug("Deleted " + results + " entries from the DB.");
 	}
 	
 	private void fillDB(JSONObject o) {
@@ -67,6 +67,7 @@ public class Engine {
 			//System.out.println(com.get("name"));
 			c.setDescription((String) com.get("description"));
 			c.setThumb_url((String) com.get("thumb_url"));
+			//System.out.println(com.get("thumb_url"));
 			em.persist(c);
 		}
 	}
