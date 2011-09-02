@@ -1,13 +1,12 @@
 package it.gas.foolslide.desktop.engine.persistence;
 
+import it.gas.foolslide.desktop.engine.ImageCache;
+
 import java.awt.Image;
-import java.awt.Toolkit;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.IOException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,7 +22,7 @@ import org.slf4j.LoggerFactory;
 	@NamedQuery(name = "delComics", query = "DELETE FROM Comic c")
 })
 public class Comic {
-	@Id @GeneratedValue
+	@Id
 	private int id;
 	private String name;
 	@Column(length = 5000)
@@ -84,11 +83,10 @@ public class Comic {
 		if (getThumb_url().compareTo("") == 0)
 			return;
 		try {
-			Toolkit tk = Toolkit.getDefaultToolkit();
-			Image img = tk.createImage(new URL(getThumb_url()));
+			Image img = ImageCache.getInstance().get(getThumb_url());
 			img = img.getScaledInstance(-1, 125, Image.SCALE_FAST);
 			setThumb(img);
-		} catch (MalformedURLException e) {
+		} catch (IOException e) {
 			LoggerFactory.getLogger(Comic.class).warn("Can't load the thumbnail", e);
 		}
 

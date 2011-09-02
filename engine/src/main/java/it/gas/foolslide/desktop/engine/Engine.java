@@ -112,6 +112,7 @@ public class Engine {
 		for (int i = 0; i < array.size(); i++) {
 			JSONObject com = (JSONObject) array.get(i);
 			Comic c = new Comic();
+			c.setId(((Long) com.get("id")).intValue());
 			c.setName((String) com.get("name"));
 			c.setDescription((String) com.get("description"));
 			c.setThumb_url((String) com.get("thumb_url"));
@@ -119,13 +120,14 @@ public class Engine {
 		}
 	}
 
-	private void fillChapters(int comiId, JSONObject o) {
+	private void fillChapters(JSONObject o) {
 		JSONArray chapters = (JSONArray) o.get("chapters");
 		for (int i = 0; i < chapters.size(); i++) {
 			JSONObject desc = (JSONObject) chapters.get(i);
 			JSONObject cha = (JSONObject) desc.get("chapter");
 			Chapter c = new Chapter();
-			c.setComic_id(comiId);
+			c.setId(((Long) cha.get("id")).intValue());
+			c.setComic_id(Integer.parseInt((String) cha.get("comic_id")));
 			c.setTeam_id(Integer.parseInt((String) cha.get("team_id")));
 			c.setJoint_id(Integer.parseInt((String) cha.get("joint_id")));
 			c.setChapter(Integer.parseInt((String) cha.get("chapter")));
@@ -137,12 +139,13 @@ public class Engine {
 		}
 	}
 
-	private void fillPages(int chapId, JSONObject o) {
+	private void fillPages(JSONObject o) {
 		JSONArray pages = (JSONArray) o.get("pages");
 		for (int i = 0; i < pages.size(); i++) {
 			JSONObject pag = (JSONObject) pages.get(i);
 			Page p = new Page();
-			p.setChapter_id(chapId);
+			p.setId(((Long) pag.get("id")).intValue());
+			p.setChapter_id(((Long) pag.get("chapter_id")).intValue());
 			p.setUrl((String) pag.get("url"));
 			p.setSize((Long) pag.get("size"));
 			p.setHeight(((Long) pag.get("height")).intValue());
@@ -171,7 +174,7 @@ public class Engine {
 			tx.begin();
 			for (int i = 0; i < l.size(); i++) {
 				Comic c = l.get(i);
-				fillChapters(c.getId(), retrieveChapters(c));
+				fillChapters(retrieveChapters(c));
 			}
 			tx.commit();
 		} catch (MalformedURLException e) {
@@ -209,8 +212,7 @@ public class Engine {
 			return l;
 		// download the list
 		try {
-			JSONObject o = retrievePages(c);
-			fillPages(c.getId(), o);
+			fillPages(retrievePages(c));
 			query = em.createNamedQuery("getPagesById", Page.class);
 			query.setParameter(1, c.getId());
 			l = query.getResultList();
