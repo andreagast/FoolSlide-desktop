@@ -7,6 +7,7 @@ import java.net.URL;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -18,11 +19,11 @@ import org.slf4j.LoggerFactory;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "getComics", query = "SELECT c FROM Comic c"),
+	@NamedQuery(name = "getComics", query = "SELECT c FROM Comic c ORDER BY c.name"),
 	@NamedQuery(name = "delComics", query = "DELETE FROM Comic c")
 })
 public class Comic {
-	@Id
+	@Id @GeneratedValue
 	private int id;
 	private String name;
 	@Column(length = 5000)

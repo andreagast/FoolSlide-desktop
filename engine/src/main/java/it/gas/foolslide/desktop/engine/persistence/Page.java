@@ -1,17 +1,18 @@
 package it.gas.foolslide.desktop.engine.persistence;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "getPagesById", query = "SELECT p FROM Page p WHERE p.chapter_id = ?1"),
+	@NamedQuery(name = "getPagesById", query = "SELECT p FROM Page p WHERE p.chapter_id = ?1 ORDER BY p.id"),
 	@NamedQuery(name = "delPages", query = "DELETE FROM Page p")
 })
 public class Page {
-	@Id
+	@Id @GeneratedValue
 	private int id;
 	private int chapter_id;
 	// image of the page

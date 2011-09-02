@@ -1,17 +1,18 @@
 package it.gas.foolslide.desktop.engine.persistence;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "getChaptersById", query = "SELECT c FROM Chapter c WHERE c.comic_id = ?1"),
+	@NamedQuery(name = "getChaptersById", query = "SELECT c FROM Chapter c WHERE c.comic_id = ?1 ORDER BY c.chapter DESC"),
 	@NamedQuery(name = "delChapters", query = "DELETE FROM Chapter c")
 })
 public class Chapter {
-	@Id
+	@Id @GeneratedValue
 	private int id;
 	private int comic_id;
 	private int team_id;
