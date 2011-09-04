@@ -1,6 +1,7 @@
 package it.gas.foolslide.desktop.viewer;
 
 import it.gas.foolslide.desktop.engine.Engine;
+import it.gas.foolslide.desktop.engine.persistence.Chapter;
 import it.gas.foolslide.desktop.engine.persistence.Comic;
 import it.gas.foolslide.desktop.viewer.chapters.JChaptersList;
 
@@ -23,16 +24,16 @@ public class PanelChapters extends JPanel {
 	private JLabel lblTitle;
 	
 	private Switcher switcher;
-	//private Comic comic;
+	private Comic comic;
 	
 	public PanelChapters(Switcher s) {
 		this.switcher = s;
-		//this.comic = null;
+		this.comic = null;
 		initComponents();
 	}
 	
 	public void setComic(Comic c) {
-		//this.comic = c;
+		this.comic = c;
 		if (c != null) {
 			chapList.setListData(Engine.getInstance().getChapters(c).toArray());
 			lblTitle.setText(c.getName());
@@ -67,6 +68,15 @@ public class PanelChapters extends JPanel {
 		
 		btnPages = new JButton("Next >");
 		buttoner.add(btnPages);
+		btnPages.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (chapList.isSelectionEmpty())
+					return;
+				Chapter c = (Chapter) chapList.getSelectedValue();
+				switcher.showPages(comic, c);
+			}
+		});
 	}
 
 }

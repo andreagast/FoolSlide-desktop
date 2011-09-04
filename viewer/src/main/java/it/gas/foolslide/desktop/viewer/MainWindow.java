@@ -17,6 +17,7 @@ public class MainWindow extends JFrame implements Switcher {
 	
 	private PanelComics pnlComics;
 	private PanelChapters pnlChapters;
+	private PanelPages pnlPages;
 		
 	public MainWindow() {
 		super("FoOlSlide Desktop");
@@ -34,6 +35,8 @@ public class MainWindow extends JFrame implements Switcher {
 		getContentPane().add(pnlComics, COMICS);
 		pnlChapters = new PanelChapters(this);
 		getContentPane().add(pnlChapters, CHAPTERS);
+		pnlPages = new PanelPages(this);
+		getContentPane().add(pnlPages, PAGES);
 	}
 
 	@Override
@@ -48,8 +51,8 @@ public class MainWindow extends JFrame implements Switcher {
 	}
 
 	@Override
-	public void showPages(Chapter c) {
-		//TODO: set the panel to show the first picture
+	public void showPages(Comic comic, Chapter chapter) {
+		pnlPages.setChapter(comic, chapter);
 		cl.show(getContentPane(), PAGES);		
 	}
 

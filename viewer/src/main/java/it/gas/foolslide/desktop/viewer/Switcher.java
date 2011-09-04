@@ -7,6 +7,6 @@ public interface Switcher {
 	
 	public void showComics();
 	public void showChapters(Comic c);
-	public void showPages(Chapter c);
+	public void showPages(Comic comic, Chapter chapter);
 
 }
