@@ -1,14 +1,13 @@
 package it.gas.foolslide.desktop.engine;
 
-import it.gas.foolslide.desktop.engine.persistence.Chapter;
-import it.gas.foolslide.desktop.engine.persistence.Comic;
-import it.gas.foolslide.desktop.engine.persistence.Page;
+import it.gas.foolslide.desktop.persistence.Chapter;
+import it.gas.foolslide.desktop.persistence.Comic;
+import it.gas.foolslide.desktop.persistence.Page;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
@@ -43,6 +42,7 @@ public class Engine {
 
 	private Engine() {
 		initPersistence();
+		logger.debug("Engine initialized");
 	}
 
 	private void initPersistence() {
@@ -54,16 +54,22 @@ public class Engine {
 	/**
 	 * Completely delete everything inside the DB.
 	 */
-	private void purgeDB() {
+	public void reset() {
+		tx.begin();
 		Query query = em.createNamedQuery("delComics");
-		int results = query.executeUpdate();
-		logger.debug("Deleted " + results + " comics from the DB.");
+		query.executeUpdate();
+		//int results = query.executeUpdate();
+		//logger.debug("Deleted " + results + " comics from the DB.");
 		query = em.createNamedQuery("delChapters");
-		results = query.executeUpdate();
-		logger.debug("Deleted " + results + " chapters from the DB.");
+		query.executeUpdate();
+		//results = query.executeUpdate();
+		//logger.debug("Deleted " + results + " chapters from the DB.");
 		query = em.createNamedQuery("delPages");
-		results = query.executeUpdate();
-		logger.debug("Deleted " + results + " pages from the DB.");
+		query.executeUpdate();
+		//results = query.executeUpdate();
+		//logger.debug("Deleted " + results + " pages from the DB.");
+		tx.commit();
+		logger.debug("DB reset complete.");
 	}
 
 	private JSONObject retrieveComics() throws IOException, ParseException {
@@ -109,6 +115,7 @@ public class Engine {
 
 	private void fillComics(JSONObject o) {
 		JSONArray array = (JSONArray) o.get("comics");
+		tx.begin();
 		for (int i = 0; i < array.size(); i++) {
 			JSONObject com = (JSONObject) array.get(i);
 			Comic c = new Comic();
@@ -118,10 +125,12 @@ public class Engine {
 			c.setThumb_url((String) com.get("thumb_url"));
 			em.persist(c);
 		}
+		tx.commit();
 	}
 
 	private void fillChapters(JSONObject o) {
 		JSONArray chapters = (JSONArray) o.get("chapters");
+		tx.begin();
 		for (int i = 0; i < chapters.size(); i++) {
 			JSONObject desc = (JSONObject) chapters.get(i);
 			JSONObject cha = (JSONObject) desc.get("chapter");
@@ -137,70 +146,65 @@ public class Engine {
 			c.setName((String) cha.get("name"));
 			em.persist(c);
 		}
+		tx.commit();
 	}
 
 	private void fillPages(JSONObject o) {
 		JSONArray pages = (JSONArray) o.get("pages");
+		tx.begin();
 		for (int i = 0; i < pages.size(); i++) {
 			JSONObject pag = (JSONObject) pages.get(i);
 			Page p = new Page();
 			p.setId(((Long) pag.get("id")).intValue());
-			p.setChapter_id(((Long) pag.get("chapter_id")).intValue());
+			p.setChapter_id(Integer.parseInt((String) pag.get("chapter_id")));
 			p.setUrl((String) pag.get("url"));
-			p.setSize((Long) pag.get("size"));
-			p.setHeight(((Long) pag.get("height")).intValue());
-			p.setWidth(((Long) pag.get("width")).intValue());
+			p.setSize(Integer.parseInt((String) pag.get("size")));
+			p.setHeight(Integer.parseInt((String) pag.get("height")));
+			p.setWidth(Integer.parseInt((String) pag.get("width")));
 			p.setThumb_url((String) pag.get("thumb_url"));
-			p.setThumbsize((Long) pag.get("thumbsize"));
-			p.setThumbheight(((Long) pag.get("thumbheight")).intValue());
-			p.setThumbwidth(((Long) pag.get("thumbwidth")).intValue());
+			p.setThumbsize(Long.parseLong((String) pag.get("thumbsize")));
+			p.setThumbheight(Integer.parseInt((String) pag.get("thumbheight")));
+			p.setThumbwidth(Integer.parseInt((String) pag.get("thumbwidth")));
 			em.persist(p);
 		}
-	}
-
-	/**
-	 * Delete everything and download Comics and Chapters again.
-	 */
-	public void initialize() {
-		try {
-			// comics
-			tx.begin();
-			purgeDB();
-			JSONObject o = retrieveComics();
-			fillComics(o);
-			tx.commit();
-			// chapters
-			List<Comic> l = getComics();
-			tx.begin();
-			for (int i = 0; i < l.size(); i++) {
-				Comic c = l.get(i);
-				fillChapters(retrieveChapters(c));
-			}
-			tx.commit();
-		} catch (MalformedURLException e) {
-			System.err.println("malformed");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.err.println("io");
-			e.printStackTrace();
-		} catch (ParseException e) {
-			System.err.println("parse");
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		tx.commit();
 	}
 
 	public List<Comic> getComics() {
 		TypedQuery<Comic> query = em.createNamedQuery("getComics", Comic.class);
-		return query.getResultList();
+		List<Comic> list = query.getResultList();
+		if (list.size() == 0) {
+			try {
+				fillComics(retrieveComics());
+				query = em.createNamedQuery("getComics", Comic.class);
+				list = query.getResultList();
+			} catch (IOException e) {
+				logger.warn("Can't download comics list", e);
+			} catch (ParseException e) {
+				logger.warn("Can't download comics list", e);
+			}
+		}
+		return list;
 	}
 
 	public List<Chapter> getChapters(Comic c) {
 		TypedQuery<Chapter> query = em.createNamedQuery("getChaptersById",
 				Chapter.class);
 		query.setParameter(1, c.getId());
-		return query.getResultList();
+		List<Chapter> list = query.getResultList();
+		if (list.size() == 0) {
+			try {
+				fillChapters(retrieveChapters(c));
+				query = em.createNamedQuery("getChaptersById", Chapter.class);
+				query.setParameter(1, c.getId());
+				list = query.getResultList();
+			} catch (IOException e) {
+				logger.warn("Can't download chapters for comic " + c.getId(), e);
+			} catch (ParseException e) {
+				logger.warn("Can't download chapters for comic " + c.getId(), e);
+			}
+		}
+		return list;
 	}
 
 	public List<Page> getPages(Chapter c) {
@@ -208,18 +212,18 @@ public class Engine {
 				.createNamedQuery("getPagesById", Page.class);
 		query.setParameter(1, c.getId());
 		List<Page> l = query.getResultList();
-		if (l.size() != 0)
-			return l;
-		// download the list
-		try {
-			fillPages(retrievePages(c));
-			query = em.createNamedQuery("getPagesById", Page.class);
-			query.setParameter(1, c.getId());
-			l = query.getResultList();
-		} catch (IOException e) {
-			logger.debug("Can't download pages for chapter " + c.getId(), e);
-		} catch (ParseException e) {
-			logger.debug("Can't parse pages for chapter " + c.getId(), e);
+		if (l.size() == 0) {
+			// download the list
+			try {
+				fillPages(retrievePages(c));
+				query = em.createNamedQuery("getPagesById", Page.class);
+				query.setParameter(1, c.getId());
+				l = query.getResultList();
+			} catch (IOException e) {
+				logger.debug("Can't download pages for chapter " + c.getId(), e);
+			} catch (ParseException e) {
+				logger.debug("Can't parse pages for chapter " + c.getId(), e);
+			}
 		}
 		// return the list, even empty this time
 		return l;

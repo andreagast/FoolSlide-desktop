@@ -1,4 +1,4 @@
-package it.gas.foolslide.desktop.engine.persistence;
+package it.gas.foolslide.desktop.persistence;
 
 import it.gas.foolslide.desktop.engine.ImageCache;
 

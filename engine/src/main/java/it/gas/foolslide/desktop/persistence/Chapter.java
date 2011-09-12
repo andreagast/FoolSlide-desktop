@@ -1,15 +1,15 @@
-package it.gas.foolslide.desktop.engine.persistence;
+package it.gas.foolslide.desktop.persistence;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "getChaptersById", query = "SELECT c FROM Chapter c WHERE c.comic_id = ?1 ORDER BY c.chapter DESC"),
-	@NamedQuery(name = "delChapters", query = "DELETE FROM Chapter c")
-})
+		@NamedQuery(name = "getChaptersById", query = "SELECT c FROM Chapter c WHERE c.comic_id = ?1 ORDER BY c.chapter DESC"),
+		@NamedQuery(name = "delChapters", query = "DELETE FROM Chapter c") })
 public class Chapter {
 	@Id
 	private int id;
@@ -21,6 +21,8 @@ public class Chapter {
 	private int volume;
 	private String language;
 	private String name;
+	@Transient
+	private boolean pagesGot;
 
 	public int getId() {
 		return id;
@@ -92,6 +94,14 @@ public class Chapter {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean isPagesGot() {
+		return pagesGot;
+	}
+
+	public void setPagesGot(boolean pagesGot) {
+		this.pagesGot = pagesGot;
 	}
 
 	@Override
