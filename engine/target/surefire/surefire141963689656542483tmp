@@ -1,0 +1,33 @@
+#surefire
+#Wed Aug 31 23:30:35 CEST 2011
+testClassesDirectory=/Users/andrea/git/foolslide/engine/target/test-classes
+classPathUrl.4=/Users/andrea/.m2/repository/org/eclipse/persistence/javax.persistence/2.0.3/javax.persistence-2.0.3.jar
+classPathUrl.3=/Users/andrea/.m2/repository/org/eclipse/persistence/eclipselink/2.3.0/eclipselink-2.3.0.jar
+classPathUrl.2=/Users/andrea/.m2/repository/org/apache/derby/derby/10.8.1.2/derby-10.8.1.2.jar
+useManifestOnlyJar=true
+classPathUrl.1=/Users/andrea/git/foolslide/engine/target/classes
+reportsDirectory=/Users/andrea/git/foolslide/engine/target/surefire-reports
+classPathUrl.0=/Users/andrea/git/foolslide/engine/target/test-classes
+dirscanner.0=directoryScannerOptions
+providerConfiguration=org.apache.maven.surefire.junit.JUnit3Provider
+testSuiteDefinitionTestSourceDirectory=/Users/andrea/git/foolslide/engine/src/test/java
+surefireClassPathUrl.1=/Users/andrea/.m2/repository/org/apache/maven/surefire/surefire-api/2.7.1/surefire-api-2.7.1.jar
+surefireClassPathUrl.0=/Users/andrea/.m2/repository/org/apache/maven/surefire/surefire-junit3/2.7.1/surefire-junit3-2.7.1.jar
+report.2=org.apache.maven.surefire.report.XMLReporter
+useSystemClassLoader=true
+report.1=org.apache.maven.surefire.report.BriefFileReporter
+report.0=org.apache.maven.surefire.report.ForkingConsoleReporter
+excludes0=**/*$*
+isTrimStackTrace=true
+dirscanner.0.params=/Users/andrea/git/foolslide/engine/target/test-classes|[**/Test*.java, **/*Test.java, **/*TestCase.java]|[**/*$*]
+includes2=**/*TestCase.java
+enableAssertions=true
+includes1=**/*Test.java
+failIfNoTests=false
+includes0=**/Test*.java
+dirscanner.0.types=java.io.File|java.util.ArrayList|java.util.ArrayList
+classPathUrl.8=/Users/andrea/.m2/repository/ch/qos/logback/logback-core/0.9.29/logback-core-0.9.29.jar
+classPathUrl.7=/Users/andrea/.m2/repository/ch/qos/logback/logback-classic/0.9.29/logback-classic-0.9.29.jar
+childDelegation=false
+classPathUrl.6=/Users/andrea/.m2/repository/org/slf4j/slf4j-api/1.6.2/slf4j-api-1.6.2.jar
+classPathUrl.5=/Users/andrea/.m2/repository/com/googlecode/json-simple/json-simple/1.1/json-simple-1.1.jar
