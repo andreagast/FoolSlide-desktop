@@ -6,6 +6,7 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import it.gas.foolslide.desktop.controller.MainController;
 import it.gas.foolslide.desktop.controller.MainControllerListener;
@@ -89,6 +90,11 @@ public class MainWindow extends JFrame implements MainControllerListener {
 	@Override
 	public void showLoadingPane() {
 		layout.show(getContentPane(), LOADING);
+	}
+	
+	@Override
+	public void showPopupMessage(String str, int type) {
+		JOptionPane.showMessageDialog(this, str, getTitle(), type);
 	}
 	
 	@Override

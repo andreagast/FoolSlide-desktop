@@ -17,6 +17,7 @@ public interface MainControllerListener {
 	public void setPagesList(List<Page> l);
 	
 	public void showLoadingPane();
+	public void showPopupMessage(String str, int type);
 	public void exitApp();
 	
 }

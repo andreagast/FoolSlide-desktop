@@ -8,6 +8,9 @@ import it.gas.foolslide.desktop.persistence.Page;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
 public class MainController {
 	private List<MainControllerListener> listeners;
 	private Engine engine;
@@ -26,25 +29,37 @@ public class MainController {
 	}
 
 	/**
-	 * Delete all the lists; download again the comics list; show the
-	 * comics list;
+	 * Delete all the lists; download again the comics list; show the comics
+	 * list;
 	 */
 	public void requestReset() {
-		for (MainControllerListener l : listeners)
-			l.showLoadingPane();
-		engine.reset();
-		List<Comic> list = engine.getComics();
-		for (MainControllerListener l : listeners)
-			l.setComicsList(list);
-		showComics();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				fireShowLoadingPane();
+			}
+		});
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					engine.reset();
+					List<Comic> list;
+					list = engine.getComics();
+					fireSetComicsList(list);
+					fireShowComicsPane();
+				} catch (Exception e) {
+					fireShowPopupMessage("Can't download comics list.",
+							JOptionPane.ERROR_MESSAGE);
+					fireExitApp();
+				}
+			}
+		}).run();
 	}
 
 	/**
 	 * Change to the comics pane.
 	 */
 	public void showComics() {
-		for (MainControllerListener l : listeners)
-			l.showComicsPane();
+		fireShowComicsPane();
 	}
 
 	/**
@@ -53,36 +68,102 @@ public class MainController {
 	 * @param comic
 	 *            the comic to retrieve; if null, simply switch to the view.
 	 */
-	public void showChapters(Comic comic) {
+	public void showChapters(final Comic comic) {
+		fireShowLoadingPane();
 		if (comic != null) {
-			for (MainControllerListener l : listeners)
-				l.showLoadingPane();
-			List<Chapter> list = engine.getChapters(comic);		
-			for (MainControllerListener l : listeners)				
-				l.setChaptersList(list);
+			
+			new Thread(new Runnable() {
+				public void run() {
+					List<Chapter> list;
+					try {
+						list = engine.getChapters(comic);
+						fireSetChaptersList(list);
+						fireShowChaptersPane();
+					} catch (Exception e) {
+						fireShowPopupMessage("Can't download chapters list.",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}).run();
+
+		} else {
+			fireShowChaptersPane();
 		}
-		for (MainControllerListener l : listeners)
-			l.showChaptersPane();
 	}
 
 	/**
 	 * Retrieve the pages list and show it switching to the pages pane.
 	 * 
-	 * @param chapter the chapters from which retrieve the pages
+	 * @param chapter
+	 *            the chapters from which retrieve the pages
 	 */
-	public void showPages(Chapter chapter) {
-		for (MainControllerListener l : listeners) {
-			List<Page> list = engine.getPages(chapter);
-			l.setPagesList(list);
-		}
-		for (MainControllerListener l : listeners)
-			l.showPagesPane();
+	public void showPages(final Chapter chapter) {
+		fireShowLoadingPane();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				List<Page> list;
+				try {
+					list = engine.getPages(chapter);
+					fireSetPagesList(list);
+					fireShowPagesPane();
+				} catch (Exception e) {
+					fireShowPopupMessage("Can't download pages list.",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}).run();
 	}
 
 	/**
 	 * Call when you want to close the app.
 	 */
 	public void requestExit() {
+		fireExitApp();
+	}
+
+	private void fireShowComicsPane() {
+		for (MainControllerListener l : listeners)
+			l.showComicsPane();
+	}
+
+	private void fireShowChaptersPane() {
+		for (MainControllerListener l : listeners)
+			l.showChaptersPane();
+	}
+
+	private void fireShowPagesPane() {
+		for (MainControllerListener l : listeners)
+			l.showPagesPane();
+	}
+
+	private void fireSetComicsList(List<Comic> li) {
+		for (MainControllerListener l : listeners)
+			l.setComicsList(li);
+	}
+
+	private void fireSetChaptersList(List<Chapter> li) {
+		for (MainControllerListener l : listeners)
+			l.setChaptersList(li);
+	}
+
+	private void fireSetPagesList(List<Page> li) {
+		for (MainControllerListener l : listeners)
+			l.setPagesList(li);
+	}
+
+	private void fireShowLoadingPane() {
+		for (MainControllerListener l : listeners)
+			l.showLoadingPane();
+	}
+
+	private void fireShowPopupMessage(String str, int type) {
+		for (MainControllerListener l : listeners)
+			l.showPopupMessage(str, type);
+	}
+
+	private void fireExitApp() {
 		for (MainControllerListener l : listeners)
 			l.exitApp();
 	}

@@ -106,6 +106,9 @@ public class PanelPages extends JPanel implements MainControllerListener, PagesC
 	public void showLoadingPane() {}
 
 	@Override
+	public void showPopupMessage(String str, int type) {}
+	
+	@Override
 	public void exitApp() {}
 
 	@Override
