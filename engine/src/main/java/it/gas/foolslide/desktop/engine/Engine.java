@@ -157,6 +157,7 @@ public class Engine {
 			Page p = new Page();
 			p.setId(((Long) pag.get("id")).intValue());
 			p.setChapter_id(Integer.parseInt((String) pag.get("chapter_id")));
+			p.setFilename((String) pag.get("filename"));
 			p.setUrl((String) pag.get("url"));
 			p.setSize(Integer.parseInt((String) pag.get("size")));
 			p.setHeight(Integer.parseInt((String) pag.get("height")));
@@ -170,7 +171,7 @@ public class Engine {
 		tx.commit();
 	}
 
-	public List<Comic> getComics() {
+	public List<Comic> getComics() throws IOException, ParseException {
 		TypedQuery<Comic> query = em.createNamedQuery("getComics", Comic.class);
 		List<Comic> list = query.getResultList();
 		if (list.size() == 0) {
@@ -180,14 +181,16 @@ public class Engine {
 				list = query.getResultList();
 			} catch (IOException e) {
 				logger.warn("Can't download comics list", e);
+				throw e;
 			} catch (ParseException e) {
-				logger.warn("Can't download comics list", e);
+				logger.warn("Can't parse comics list", e);
+				throw e;
 			}
 		}
 		return list;
 	}
 
-	public List<Chapter> getChapters(Comic c) {
+	public List<Chapter> getChapters(Comic c) throws IOException, ParseException {
 		TypedQuery<Chapter> query = em.createNamedQuery("getChaptersById",
 				Chapter.class);
 		query.setParameter(1, c.getId());
@@ -200,14 +203,16 @@ public class Engine {
 				list = query.getResultList();
 			} catch (IOException e) {
 				logger.warn("Can't download chapters for comic " + c.getId(), e);
+				throw e;
 			} catch (ParseException e) {
-				logger.warn("Can't download chapters for comic " + c.getId(), e);
+				logger.warn("Can't parse chapters for comic " + c.getId(), e);
+				throw e;
 			}
 		}
 		return list;
 	}
 
-	public List<Page> getPages(Chapter c) {
+	public List<Page> getPages(Chapter c) throws IOException, ParseException {
 		TypedQuery<Page> query = em
 				.createNamedQuery("getPagesById", Page.class);
 		query.setParameter(1, c.getId());
@@ -221,8 +226,10 @@ public class Engine {
 				l = query.getResultList();
 			} catch (IOException e) {
 				logger.debug("Can't download pages for chapter " + c.getId(), e);
+				throw e;
 			} catch (ParseException e) {
 				logger.debug("Can't parse pages for chapter " + c.getId(), e);
+				throw e;
 			}
 		}
 		// return the list, even empty this time
