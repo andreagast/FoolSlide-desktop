@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 public class MainController {
 	private List<MainControllerListener> listeners;
@@ -33,11 +32,7 @@ public class MainController {
 	 * list;
 	 */
 	public void requestReset() {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				fireShowLoadingPane();
-			}
-		});
+		fireShowLoadingPane();
 		new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -71,7 +66,7 @@ public class MainController {
 	public void showChapters(final Comic comic) {
 		fireShowLoadingPane();
 		if (comic != null) {
-			
+
 			new Thread(new Runnable() {
 				public void run() {
 					List<Chapter> list;
@@ -111,7 +106,7 @@ public class MainController {
 					fireShowPopupMessage("Can't download pages list.",
 							JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 			}
 		}).run();
 	}
