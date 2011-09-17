@@ -8,7 +8,7 @@ import javax.persistence.Transient;
 
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "getChaptersById", query = "SELECT c FROM Chapter c WHERE c.comic_id = ?1 ORDER BY c.chapter DESC"),
+		@NamedQuery(name = "getChaptersById", query = "SELECT c FROM Chapter c WHERE c.comic_id = ?1 ORDER BY c.chapter DESC, c.subchapter DESC"),
 		@NamedQuery(name = "delChapters", query = "DELETE FROM Chapter c") })
 public class Chapter {
 	@Id
