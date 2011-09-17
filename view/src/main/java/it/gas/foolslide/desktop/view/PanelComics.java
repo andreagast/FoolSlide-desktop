@@ -97,7 +97,4 @@ setLayout(new BorderLayout());
 	@Override
 	public void showPopupMessage(String str, int type) {}
 	
-	@Override
-	public void exitApp() {}
-	
 }

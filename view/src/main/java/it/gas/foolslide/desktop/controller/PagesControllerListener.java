@@ -12,5 +12,6 @@ public interface PagesControllerListener {
 	
 	public void setCurrentPageImage(Image i);
 	public void setMessage(String str);
+	public void setLoading(boolean b);
 
 }

@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -30,6 +31,7 @@ public class PanelPages extends JPanel implements MainControllerListener, PagesC
 	private JLabel lblImage;
 	private JScrollPane scroll;
 	private JButton btnChapters, btnPrev, btnNext;
+	private JProgressBar loadBar;
 	
 	private MainController mController;
 	private PagesController pController;
@@ -80,6 +82,12 @@ public class PanelPages extends JPanel implements MainControllerListener, PagesC
 				pController.requestNextPage();
 			}
 		});
+		
+		pnlBottom.add(new JSeparator(SwingConstants.VERTICAL));
+		
+		loadBar = new JProgressBar();
+		loadBar.setIndeterminate(false);
+		pnlBottom.add(loadBar);
 	}
 
 	@Override
@@ -107,9 +115,6 @@ public class PanelPages extends JPanel implements MainControllerListener, PagesC
 
 	@Override
 	public void showPopupMessage(String str, int type) {}
-	
-	@Override
-	public void exitApp() {}
 
 	@Override
 	public void setNextButtonEnabled(boolean b) {
@@ -147,6 +152,11 @@ public class PanelPages extends JPanel implements MainControllerListener, PagesC
 		lblImage.setIcon(null);
 		scroll.getVerticalScrollBar().setValue(0);
 		scroll.getHorizontalScrollBar().setValue(0);
+	}
+
+	@Override
+	public void setLoading(boolean b) {
+		loadBar.setIndeterminate(b);
 	}
 	
 }

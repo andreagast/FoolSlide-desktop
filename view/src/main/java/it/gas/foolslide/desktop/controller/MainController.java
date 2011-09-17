@@ -10,13 +10,20 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import org.jdesktop.application.Application;
+import org.jdesktop.application.Task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MainController {
 	private List<MainControllerListener> listeners;
 	private Engine engine;
+	private Logger logger;
 
 	public MainController() {
 		listeners = new LinkedList<MainControllerListener>();
 		engine = Engine.getInstance();
+		logger = LoggerFactory.getLogger(this.getClass());
 	}
 
 	public void addListener(MainControllerListener l) {
@@ -33,21 +40,21 @@ public class MainController {
 	 */
 	public void requestReset() {
 		fireShowLoadingPane();
-		new Thread(new Runnable() {
+		/*new Thread(new Runnable() {
 			public void run() {
 				try {
 					engine.reset();
-					List<Comic> list;
-					list = engine.getComics();
+					List<Comic> list = engine.getComics();
 					fireSetComicsList(list);
 					fireShowComicsPane();
 				} catch (Exception e) {
 					fireShowPopupMessage("Can't download comics list.",
 							JOptionPane.ERROR_MESSAGE);
-					fireExitApp();
+					requestExit();
 				}
 			}
-		}).run();
+		}).run();*/
+		new ResetTask(Application.getInstance()).execute();
 	}
 
 	/**
@@ -63,11 +70,11 @@ public class MainController {
 	 * @param comic
 	 *            the comic to retrieve; if null, simply switch to the view.
 	 */
-	public void showChapters(final Comic comic) {
+	public void showChapters(Comic comic) {
 		fireShowLoadingPane();
 		if (comic != null) {
-
-			new Thread(new Runnable() {
+			
+			/*new Thread(new Runnable() {
 				public void run() {
 					List<Chapter> list;
 					try {
@@ -79,22 +86,25 @@ public class MainController {
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}
-			}).run();
-
+			}).run();*/
+			new ShowChaptersTask(Application.getInstance(), comic).execute();
 		} else {
 			fireShowChaptersPane();
 		}
+		
 	}
 
 	/**
 	 * Retrieve the pages list and show it switching to the pages pane.
 	 * 
 	 * @param chapter
-	 *            the chapters from which retrieve the pages
+	 *            the chapters from which retrieve the pages; if null do nothing
 	 */
-	public void showPages(final Chapter chapter) {
+	public void showPages(Chapter chapter) {
+		if (chapter == null)
+			return;
 		fireShowLoadingPane();
-		new Thread(new Runnable() {
+		/*new Thread(new Runnable() {
 			@Override
 			public void run() {
 				List<Page> list;
@@ -108,14 +118,15 @@ public class MainController {
 				}
 
 			}
-		}).run();
+		}).run();*/
+		new ShowPagesTask(Application.getInstance(), chapter).execute();
 	}
 
 	/**
 	 * Call when you want to close the app.
 	 */
 	public void requestExit() {
-		fireExitApp();
+		Application.getInstance().exit();
 	}
 
 	private void fireShowComicsPane() {
@@ -157,10 +168,96 @@ public class MainController {
 		for (MainControllerListener l : listeners)
 			l.showPopupMessage(str, type);
 	}
+	
+	private class ResetTask extends Task<Void, Void> {
 
-	private void fireExitApp() {
-		for (MainControllerListener l : listeners)
-			l.exitApp();
+		public ResetTask(Application application) {
+			super(application);
+		}
+
+		@Override
+		protected Void doInBackground() throws Exception {
+			engine.reset();
+			List<Comic> list = engine.getComics();
+			fireSetComicsList(list);
+			return null;
+		}
+		
+		@Override
+		protected void succeeded(Void l) {
+			//fireSetComicsList(l);
+			fireShowComicsPane();
+		}
+		
+		@Override
+		protected void failed(Throwable t) {
+			logger.warn("Can't download comics list.", t);
+			fireShowPopupMessage("Can't download comics list.",
+					JOptionPane.ERROR_MESSAGE);
+			requestExit();
+		}
+		
 	}
 
+	private class ShowChaptersTask extends Task<Void, Void> {
+		private Comic comic;
+
+		public ShowChaptersTask(Application application, Comic c) {
+			super(application);
+			this.comic = c;
+		}
+
+		@Override
+		protected Void doInBackground() throws Exception {
+			List<Chapter> list = engine.getChapters(comic);
+			fireSetChaptersList(list);
+			return null;
+		}
+		
+		@Override
+		protected void succeeded(Void l) {
+			//fireSetChaptersList(l);
+			fireShowChaptersPane();
+		}
+		
+		@Override
+		protected void failed(Throwable t) {
+			logger.warn("Can't download chapters list.", t);
+			fireShowPopupMessage("Can't download chapters list.",
+					JOptionPane.ERROR_MESSAGE);
+			fireShowComicsPane();
+		}
+		
+	}
+
+	private class ShowPagesTask extends Task<Void, Void> {
+		private Chapter chapter;
+		
+		public ShowPagesTask(Application application, Chapter c) {
+			super(application);
+			this.chapter = c;
+		}
+
+		@Override
+		protected Void doInBackground() throws Exception {
+			List<Page> list = engine.getPages(chapter);
+			fireSetPagesList(list);
+			return null;
+		}
+		
+		@Override
+		protected void succeeded(Void l) {
+			//fireSetPagesList(l);
+			fireShowPagesPane();
+		}
+		
+		@Override
+		protected void failed(Throwable t) {
+			logger.warn("Can't download pages list.", t);
+			fireShowPopupMessage("Can't download pages list.",
+					JOptionPane.ERROR_MESSAGE);
+			fireShowChaptersPane();
+		}
+	}
+	
 }

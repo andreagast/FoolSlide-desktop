@@ -97,10 +97,4 @@ public class MainWindow extends JFrame implements MainControllerListener {
 		JOptionPane.showMessageDialog(this, str, getTitle(), type);
 	}
 	
-	@Override
-	public void exitApp() {
-		setVisible(false);
-		dispose();
-	}
-	
 }

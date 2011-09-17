@@ -96,7 +96,4 @@ public class PanelChapters extends JPanel implements MainControllerListener {
 	@Override
 	public void showPopupMessage(String str, int type) {}
 	
-	@Override
-	public void exitApp() {}
-	
 }

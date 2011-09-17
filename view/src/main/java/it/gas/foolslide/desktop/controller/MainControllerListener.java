@@ -18,6 +18,5 @@ public interface MainControllerListener {
 	
 	public void showLoadingPane();
 	public void showPopupMessage(String str, int type);
-	public void exitApp();
 	
 }
