@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.gas.foolslide.desktop</groupId>
 	<artifactId>view</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<dependencies>
 		<dependency>
 			<groupId>it.gas.foolslide.desktop</groupId>
