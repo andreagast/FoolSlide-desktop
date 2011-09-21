@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 public class PagesController {
 	private Logger log;
 	private List<PagesControllerListener> listeners;
-
 	private List<Page> pagesList;
 	private int index;
 
@@ -37,28 +36,35 @@ public class PagesController {
 	}
 
 	public void setPagesList(List<Page> list) {
+		if (list == null)
+			return;
 		pagesList = list;
+		ImageCache.getInstance().clear();
+		for (Page p : pagesList)
+			ImageCache.getInstance().preload(p.getUrl());
 		index = 0;
-		for (PagesControllerListener l : listeners) {
-			l.setPrevButtonEnabled(false);
-			if (pagesList.size() > 0)
-				l.setNextButtonEnabled(true);
-			else
-				l.setNextButtonEnabled(false);
-			l.setPageCountNumber(pagesList.size());
-			if (pagesList.size() > 0)
-				l.setCurrentPageNumber(index + 1);
-			else
-				l.setCurrentPageNumber(0);
-			// TODO
-			try {
-				l.setCurrentPageImage(ImageCache.getInstance().get(
-						pagesList.get(index).getUrl()));
-				log.debug("ID: " + pagesList.get(index).getId());
-			} catch (IOException e) {
-				e.printStackTrace();
+		try {
+			Image m = ImageCache.getInstance().get(
+					pagesList.get(index).getUrl());
+			for (PagesControllerListener l : listeners) {
+				l.setPrevButtonEnabled(false);
+				if (pagesList.size() > 0)
+					l.setNextButtonEnabled(true);
+				else
+					l.setNextButtonEnabled(false);
+				l.setPageCountNumber(pagesList.size());
+				if (pagesList.size() > 0)
+					l.setCurrentPageNumber(index + 1);
+				else
+					l.setCurrentPageNumber(0);
+				l.setCurrentPageImage(m);
 			}
+		} catch (IOException e) {
+			for (PagesControllerListener l : listeners)
+				l.setMessage(e.getMessage());
+			log.warn("Error retrieving the first image.", e);
 		}
+
 	}
 
 	public void requestNextPage() {
@@ -74,9 +80,8 @@ public class PagesController {
 		/*
 		 * for (PagesControllerListener l : listeners) { if (index ==
 		 * pagesList.size() - 1) l.setNextButtonEnabled(false);
-		 * l.setPrevButtonEnabled(true); l.setCurrentPageNumber(index + 1);
-		 * try {
-		 * l.setCurrentPageImage(ImageCache.getInstance().get(pagesList
+		 * l.setPrevButtonEnabled(true); l.setCurrentPageNumber(index + 1); try
+		 * { l.setCurrentPageImage(ImageCache.getInstance().get(pagesList
 		 * .get(index).getUrl())); log.debug("ID: " +
 		 * pagesList.get(index).getId()); } catch (IOException e) {
 		 * e.printStackTrace(); } }
@@ -96,8 +101,7 @@ public class PagesController {
 		/*
 		 * for (PagesControllerListener l : listeners) { if (index == 0)
 		 * l.setPrevButtonEnabled(false); l.setNextButtonEnabled(true);
-		 * l.setCurrentPageNumber(index + 1); try {
-		 * l.setCurrentPageImage(
+		 * l.setCurrentPageNumber(index + 1); try { l.setCurrentPageImage(
 		 * ImageCache.getInstance().get(pagesList.get(index).getUrl()));
 		 * log.debug("ID: " + pagesList.get(index).getId()); } catch
 		 * (IOException e) { e.printStackTrace(); } }

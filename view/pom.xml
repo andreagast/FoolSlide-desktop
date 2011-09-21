@@ -8,7 +8,7 @@
 		<dependency>
 			<groupId>it.gas.foolslide.desktop</groupId>
 			<artifactId>engine</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jdesktop.bsaf</groupId>
@@ -24,7 +24,7 @@
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>install</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>copy-dependencies</goal>
 						</goals>
@@ -38,6 +38,7 @@
 				<!-- add main class and libraries to the manifest -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.2</version>
 				<configuration>
 					<archive>
 						<manifest>

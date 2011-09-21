@@ -1,13 +1,5 @@
 package it.gas.foolslide.desktop.view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-
 import it.gas.foolslide.desktop.controller.MainController;
 import it.gas.foolslide.desktop.controller.MainControllerListener;
 import it.gas.foolslide.desktop.controller.PagesController;
@@ -15,6 +7,14 @@ import it.gas.foolslide.desktop.controller.PagesControllerListener;
 import it.gas.foolslide.desktop.persistence.Chapter;
 import it.gas.foolslide.desktop.persistence.Comic;
 import it.gas.foolslide.desktop.persistence.Page;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -47,7 +47,11 @@ public class PanelPages extends JPanel implements MainControllerListener, PagesC
 		lblImage = new JLabel("", JLabel.CENTER);
 		lblImage.setBackground(Color.WHITE);
 		lblImage.setOpaque(true);
+		
 		scroll = new JScrollPane(lblImage);
+		//adjust the scroll increment
+		scroll.getHorizontalScrollBar().setUnitIncrement(16);
+		scroll.getVerticalScrollBar().setUnitIncrement(16);
 		add(scroll);
 		
 		JPanel pnlBottom = new JPanel();

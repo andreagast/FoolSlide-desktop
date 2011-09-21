@@ -19,6 +19,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class PanelChapters extends JPanel implements MainControllerListener {
 	private static final long serialVersionUID = 1L;
@@ -41,6 +43,12 @@ public class PanelChapters extends JPanel implements MainControllerListener {
 		chaptersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scroll = new JScrollPane(chaptersList);
 		add(scroll);
+		chaptersList.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				btnPages.setEnabled(! chaptersList.isSelectionEmpty());
+			}
+		});
 		
 		JPanel pnlBottom = new JPanel(new FlowLayout());
 		add(pnlBottom, BorderLayout.SOUTH);
@@ -57,6 +65,7 @@ public class PanelChapters extends JPanel implements MainControllerListener {
 		pnlBottom.add(new JSeparator(SwingConstants.VERTICAL));
 		
 		btnPages = new JButton("Look it!");
+		btnPages.setEnabled(false);
 		pnlBottom.add(btnPages);
 		btnPages.addActionListener(new ActionListener() {
 			@Override

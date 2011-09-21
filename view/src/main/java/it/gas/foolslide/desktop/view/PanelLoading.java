@@ -1,5 +1,8 @@
 package it.gas.foolslide.desktop.view;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
@@ -11,10 +14,11 @@ public class PanelLoading extends JPanel {
 	}
 	
 	private void initComponents() {
-		//setLayout(new BorderLayout());
+		setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
 		JProgressBar progBar = new JProgressBar();
 		progBar.setIndeterminate(true);
-		add(progBar);
+		add(progBar, c);
 	}
 	
 }
