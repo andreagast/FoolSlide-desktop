@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Transient;
 
 @Entity
 @NamedQueries({
@@ -21,8 +20,6 @@ public class Chapter {
 	private int volume;
 	private String language;
 	private String name;
-	@Transient
-	private boolean pagesGot;
 
 	public int getId() {
 		return id;
@@ -94,14 +91,6 @@ public class Chapter {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public boolean isPagesGot() {
-		return pagesGot;
-	}
-
-	public void setPagesGot(boolean pagesGot) {
-		this.pagesGot = pagesGot;
 	}
 
 	@Override
