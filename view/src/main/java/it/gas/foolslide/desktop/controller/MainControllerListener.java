@@ -11,6 +11,7 @@ public interface MainControllerListener {
 	public void showComicsPane();
 	public void showChaptersPane();
 	public void showPagesPane();
+	public void showOverlay(boolean b);
 	
 	public void setComicsList(List<Comic> l);
 	public void setChaptersList(List<Chapter> l);

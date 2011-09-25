@@ -121,6 +121,14 @@ public class MainController {
 		}).run();*/
 		new ShowPagesTask(Application.getInstance(), chapter).execute();
 	}
+	
+	/** Show the overlay. This method should be used only inside PanelPages,
+	 * because the overlay is it's buttons for managing the pages.
+	 * @param b true if the overlay should appear; otherwise false.
+	 */
+	public void showOverlay(boolean b) {
+		fireShowOverlay(b);
+	}
 
 	/**
 	 * Call when you want to close the app.
@@ -142,6 +150,11 @@ public class MainController {
 	private void fireShowPagesPane() {
 		for (MainControllerListener l : listeners)
 			l.showPagesPane();
+	}
+	
+	private void fireShowOverlay(boolean b) {
+		for (MainControllerListener l : listeners)
+			l.showOverlay(b);
 	}
 
 	private void fireSetComicsList(List<Comic> li) {

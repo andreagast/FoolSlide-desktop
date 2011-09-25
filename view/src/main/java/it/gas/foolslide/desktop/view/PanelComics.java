@@ -7,11 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import it.gas.foolslide.desktop.controller.MainController;
-import it.gas.foolslide.desktop.controller.MainControllerListener;
-import it.gas.foolslide.desktop.persistence.Chapter;
 import it.gas.foolslide.desktop.persistence.Comic;
-import it.gas.foolslide.desktop.persistence.Page;
-
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -22,7 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class PanelComics extends JPanel implements MainControllerListener {
+public class PanelComics extends AbstractMainPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private MainController controller;
@@ -79,31 +75,10 @@ setLayout(new BorderLayout());
 	}
 
 	@Override
-	public void showComicsPane() {}
-
-	@Override
-	public void showChaptersPane() {}
-
-	@Override
-	public void showPagesPane() {}
-
-	@Override
 	public void setComicsList(List<Comic> l) {
 		comicsList.setListData(l.toArray());
 		scroll.getVerticalScrollBar().setValue(0);
 		scroll.getHorizontalScrollBar().setValue(0);
 	}
-
-	@Override
-	public void setChaptersList(List<Chapter> l) {}
-
-	@Override
-	public void setPagesList(List<Page> l) {}
-
-	@Override
-	public void showLoadingPane() {}
-
-	@Override
-	public void showPopupMessage(String str, int type) {}
 	
 }

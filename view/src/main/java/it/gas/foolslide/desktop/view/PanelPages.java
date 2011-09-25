@@ -1,44 +1,35 @@
 package it.gas.foolslide.desktop.view;
 
 import it.gas.foolslide.desktop.controller.MainController;
-import it.gas.foolslide.desktop.controller.MainControllerListener;
 import it.gas.foolslide.desktop.controller.PagesController;
 import it.gas.foolslide.desktop.controller.PagesControllerListener;
-import it.gas.foolslide.desktop.persistence.Chapter;
-import it.gas.foolslide.desktop.persistence.Comic;
 import it.gas.foolslide.desktop.persistence.Page;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
 
-public class PanelPages extends JPanel implements MainControllerListener, PagesControllerListener {
+public class PanelPages extends AbstractMainPanel implements PagesControllerListener {
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel lblImage;
 	private JScrollPane scroll;
-	private JButton btnChapters, btnPrev, btnNext;
-	private JProgressBar loadBar;
+	/*private JButton btnChapters, btnPrev, btnNext;
+	private JProgressBar loadBar;*/
 	
 	private MainController mController;
 	private PagesController pController;
 
-	public PanelPages(MainController mController, PagesController pController) {
-		this.mController = mController;
-		this.pController = pController;
+	public PanelPages(MainController m, PagesController p) {
+		this.mController = m;
+		this.pController = p;
 		initComponents();
 	}
 	
@@ -47,6 +38,25 @@ public class PanelPages extends JPanel implements MainControllerListener, PagesC
 		lblImage = new JLabel("", JLabel.CENTER);
 		lblImage.setBackground(Color.WHITE);
 		lblImage.setOpaque(true);
+		lblImage.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (arg0.getClickCount() >= 2)
+					pController.requestNextPage();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				mController.showOverlay(true);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				mController.showOverlay(false);
+			}
+			
+		});
 		
 		scroll = new JScrollPane(lblImage);
 		//adjust the scroll increment
@@ -54,7 +64,7 @@ public class PanelPages extends JPanel implements MainControllerListener, PagesC
 		scroll.getVerticalScrollBar().setUnitIncrement(16);
 		add(scroll);
 		
-		JPanel pnlBottom = new JPanel();
+		/*JPanel pnlBottom = new JPanel();
 		pnlBottom.setLayout(new FlowLayout());
 		add(pnlBottom, BorderLayout.SOUTH);
 		
@@ -91,23 +101,8 @@ public class PanelPages extends JPanel implements MainControllerListener, PagesC
 		
 		loadBar = new JProgressBar();
 		loadBar.setIndeterminate(false);
-		pnlBottom.add(loadBar);
+		pnlBottom.add(loadBar);*/
 	}
-
-	@Override
-	public void showComicsPane() {}
-
-	@Override
-	public void showChaptersPane() {}
-
-	@Override
-	public void showPagesPane() {}
-
-	@Override
-	public void setComicsList(List<Comic> l) {}
-
-	@Override
-	public void setChaptersList(List<Chapter> l) {}
 
 	@Override
 	public void setPagesList(List<Page> l) {
@@ -115,19 +110,13 @@ public class PanelPages extends JPanel implements MainControllerListener, PagesC
 	}
 
 	@Override
-	public void showLoadingPane() {}
-
-	@Override
-	public void showPopupMessage(String str, int type) {}
-
-	@Override
 	public void setNextButtonEnabled(boolean b) {
-		btnNext.setEnabled(b);
+		//btnNext.setEnabled(b);
 	}
 
 	@Override
 	public void setPrevButtonEnabled(boolean b) {
-		btnPrev.setEnabled(b);
+		//btnPrev.setEnabled(b);
 	}
 
 	@Override
@@ -160,7 +149,7 @@ public class PanelPages extends JPanel implements MainControllerListener, PagesC
 
 	@Override
 	public void setLoading(boolean b) {
-		loadBar.setIndeterminate(b);
+		//loadBar.setIndeterminate(b);
 	}
 	
 }

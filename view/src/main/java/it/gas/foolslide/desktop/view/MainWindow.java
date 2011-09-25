@@ -24,6 +24,7 @@ public class MainWindow extends JFrame implements MainControllerListener {
 	
 	private MainController mController;
 	private PagesController pController;
+	private PanelPagesOverlay overlay;
 	
 	private CardLayout layout;
 	
@@ -61,6 +62,11 @@ public class MainWindow extends JFrame implements MainControllerListener {
 		mController.addListener(pnlPages);
 		pController.addListener(pnlPages);
 		getContentPane().add(pnlPages, PAGES);
+		
+		//overlay for PanelPages
+		overlay = new PanelPagesOverlay(mController, pController);
+		pController.addListener(overlay);
+		setGlassPane(overlay);
 	}
 
 	@Override
@@ -76,6 +82,11 @@ public class MainWindow extends JFrame implements MainControllerListener {
 	@Override
 	public void showPagesPane() {
 		layout.show(getContentPane(), PAGES);
+	}
+	
+	@Override
+	public void showOverlay(boolean b) {
+		overlay.setVisible(b);
 	}
 
 	@Override
