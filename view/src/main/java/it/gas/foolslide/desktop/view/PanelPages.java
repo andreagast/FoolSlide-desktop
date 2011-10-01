@@ -21,8 +21,6 @@ public class PanelPages extends AbstractMainPanel implements PagesControllerList
 	
 	private JLabel lblImage;
 	private JScrollPane scroll;
-	/*private JButton btnChapters, btnPrev, btnNext;
-	private JProgressBar loadBar;*/
 	
 	private MainController mController;
 	private PagesController pController;
@@ -63,45 +61,6 @@ public class PanelPages extends AbstractMainPanel implements PagesControllerList
 		scroll.getHorizontalScrollBar().setUnitIncrement(16);
 		scroll.getVerticalScrollBar().setUnitIncrement(16);
 		add(scroll);
-		
-		/*JPanel pnlBottom = new JPanel();
-		pnlBottom.setLayout(new FlowLayout());
-		add(pnlBottom, BorderLayout.SOUTH);
-		
-		btnChapters = new JButton("Chapter's list");
-		pnlBottom.add(btnChapters);
-		btnChapters.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mController.showChapters(null);
-			}
-		});
-		
-		pnlBottom.add(new JSeparator(SwingConstants.VERTICAL));
-		
-		btnPrev = new JButton("<");
-		pnlBottom.add(btnPrev);
-		btnPrev.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				pController.requestPrevPage();
-			}
-		});
-		
-		btnNext = new JButton(">");
-		pnlBottom.add(btnNext);
-		btnNext.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				pController.requestNextPage();
-			}
-		});
-		
-		pnlBottom.add(new JSeparator(SwingConstants.VERTICAL));
-		
-		loadBar = new JProgressBar();
-		loadBar.setIndeterminate(false);
-		pnlBottom.add(loadBar);*/
 	}
 
 	@Override
@@ -148,8 +107,6 @@ public class PanelPages extends AbstractMainPanel implements PagesControllerList
 	}
 
 	@Override
-	public void setLoading(boolean b) {
-		//loadBar.setIndeterminate(b);
-	}
+	public void setLoading(boolean b) {}
 	
 }

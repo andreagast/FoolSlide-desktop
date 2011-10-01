@@ -33,7 +33,7 @@ public class MainWindow extends JFrame implements MainControllerListener {
 		this.pController = p;
 		setTitle("FoOlSlide Desktop");
 		initComponents();
-		setSize(400, 300);
+		setSize(700, 400);
 		setLocationRelativeTo(null);
 		addWindowListener(new WindowAdapter() {
 			@Override

@@ -14,24 +14,6 @@ public class MainApp extends SingleFrameApplication {
 	private PagesController pController;
 
 	public static void main(String[] args) {
-		/*
-		 * try {
-		 * UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName
-		 * ()); } catch (ClassNotFoundException e) { // TODO Auto-generated
-		 * catch block e.printStackTrace(); } catch (InstantiationException e) {
-		 * // TODO Auto-generated catch block e.printStackTrace(); } catch
-		 * (IllegalAccessException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); } catch (UnsupportedLookAndFeelException e) { //
-		 * TODO Auto-generated catch block e.printStackTrace(); } MainController
-		 * mController = new MainController(); PagesController pController = new
-		 * PagesController(); final MainWindow window = new
-		 * MainWindow(mController, pController);
-		 * mController.addListener(window); SwingUtilities.invokeLater(new
-		 * Runnable() {
-		 * 
-		 * @Override public void run() { window.setVisible(true); } });
-		 * mController.requestReset();
-		 */
 		Application.launch(MainApp.class, args);
 	}
 

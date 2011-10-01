@@ -1,6 +1,7 @@
 package it.gas.foolslide.desktop.controller;
 
 import it.gas.foolslide.desktop.engine.Engine;
+import it.gas.foolslide.desktop.engine.ImageCache;
 import it.gas.foolslide.desktop.persistence.Chapter;
 import it.gas.foolslide.desktop.persistence.Comic;
 import it.gas.foolslide.desktop.persistence.Page;
@@ -183,15 +184,19 @@ public class MainController {
 	}
 	
 	private class ResetTask extends Task<Void, Void> {
+		private ImageCache ic;
 
 		public ResetTask(Application application) {
 			super(application);
+			ic = ImageCache.getInstance();
 		}
 
 		@Override
 		protected Void doInBackground() throws Exception {
 			engine.reset();
 			List<Comic> list = engine.getComics();
+			for (Comic c : list)
+				ic.preload(c.getThumb_url());
 			fireSetComicsList(list);
 			return null;
 		}
