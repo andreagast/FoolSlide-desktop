@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
@@ -30,8 +31,8 @@ public class ImageCache implements Runnable {
 	}
 
 	private ImageCache() {
-		//db = Collections.synchronizedMap(new HashMap<String, File>());
-		db = new HashMap<String, File>();
+		db = Collections.synchronizedMap(new HashMap<String, File>());
+		//db = new HashMap<String, File>();
 		logger = LoggerFactory.getLogger(ImageCache.class);
 		workQueue = new LinkedBlockingQueue<String>();
 		//logger

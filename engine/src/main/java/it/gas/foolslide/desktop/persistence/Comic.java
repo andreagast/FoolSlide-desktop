@@ -10,8 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.PostLoad;
-import javax.persistence.PostPersist;
 import javax.persistence.Transient;
 
 import org.slf4j.LoggerFactory;
@@ -63,33 +61,25 @@ public class Comic {
 		this.thumb_url = thumb_url;
 	}
 
-	@Override
-	public String toString() {
-		return getName();
-	}
-
 	public Image getThumb() {
+		try {
+			if (thumb == null && thumb_url.compareTo("") != 0) {
+				Image img = ImageCache.getInstance().get(getThumb_url());
+				setThumb(img);
+			}
+		} catch (IOException e) {
+			LoggerFactory.getLogger(Comic.class).warn("Can't load the thumbnail", e);
+		}
 		return thumb;
 	}
 
 	public void setThumb(Image thumb) {
-		this.thumb = thumb;
+		this.thumb = thumb.getScaledInstance(-1, 125, Image.SCALE_FAST);
 	}
-
-	@SuppressWarnings("unused")
-	@PostPersist
-	@PostLoad
-	private void loadThumb() {
-		if (getThumb_url().compareTo("") == 0)
-			return;
-		try {
-			Image img = ImageCache.getInstance().get(getThumb_url());
-			img = img.getScaledInstance(-1, 125, Image.SCALE_FAST);
-			setThumb(img);
-		} catch (IOException e) {
-			LoggerFactory.getLogger(Comic.class).warn("Can't load the thumbnail", e);
-		}
-
+	
+	@Override
+	public String toString() {
+		return getName();
 	}
 
 }
