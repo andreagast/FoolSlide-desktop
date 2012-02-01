@@ -4,6 +4,7 @@ import it.gas.foolslide.desktop.engine.ImageCache;
 
 import java.awt.Image;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,13 +13,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 
-import org.slf4j.LoggerFactory;
-
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "getComics", query = "SELECT c FROM Comic c ORDER BY c.name"),
-	@NamedQuery(name = "delComics", query = "DELETE FROM Comic c")
-})
+		@NamedQuery(name = "getComics", query = "SELECT c FROM Comic c ORDER BY c.name"),
+		@NamedQuery(name = "delComics", query = "DELETE FROM Comic c") })
 public class Comic {
 	@Id
 	private int id;
@@ -68,7 +66,8 @@ public class Comic {
 				setThumb(img);
 			}
 		} catch (IOException e) {
-			LoggerFactory.getLogger(Comic.class).warn("Can't load the thumbnail", e);
+			Logger.getLogger(Comic.class.getName()).warning(
+					"Can't load the thumbnail for " + thumb_url);
 		}
 		return thumb;
 	}
@@ -76,7 +75,7 @@ public class Comic {
 	public void setThumb(Image thumb) {
 		this.thumb = thumb.getScaledInstance(-1, 125, Image.SCALE_FAST);
 	}
-	
+
 	@Override
 	public String toString() {
 		return getName();

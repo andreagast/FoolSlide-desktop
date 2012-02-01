@@ -9,12 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ImageCache implements Runnable {
 	private static ImageCache INSTANCE;
@@ -33,10 +32,10 @@ public class ImageCache implements Runnable {
 	private ImageCache() {
 		db = Collections.synchronizedMap(new HashMap<String, File>());
 		//db = new HashMap<String, File>();
-		logger = LoggerFactory.getLogger(ImageCache.class);
+		logger = Logger.getLogger(ImageCache.class.getName());
 		workQueue = new LinkedBlockingQueue<String>();
 		//logger
-		logger.debug("ImageCache initialized");
+		logger.fine("ImageCache initialized");
 	}
 
 	/** Add the URL to the preload queue. */
@@ -47,13 +46,13 @@ public class ImageCache implements Runnable {
 			t.setDaemon(true);
 			t.start();
 		}
-		logger.debug("Request preload for: " + s);
+		logger.fine("Request preload for: " + s);
 	}
 	
 	/** Remove any pending file in the preload queue. */
 	public void clear() {
 		workQueue.clear();
-		logger.debug("Preload queue cleared.");
+		logger.fine("Preload queue cleared.");
 	}
 	
 	/*public void preload(String s) {
@@ -75,14 +74,14 @@ public class ImageCache implements Runnable {
 			f = File.createTempFile("fool", "");
 			FileUtils.copyURLToFile(new URL(s), f);
 			db.put(s, f);
-			logger.debug("Added " + s);
+			logger.fine("Added " + s);
 		}
 		return ImageIO.read(f);
 	}
 
 	@Override
 	public void run() {
-		logger.debug("ImageCache preloader started.");
+		logger.fine("ImageCache preloader started.");
 		String tmpString;
 		while (true) {
 			//worker
@@ -93,9 +92,9 @@ public class ImageCache implements Runnable {
 						File f = File.createTempFile("fool", "");
 						FileUtils.copyURLToFile(new URL(tmpString), f);
 						db.put(tmpString, f);
-						logger.debug("Preloaded " + tmpString);
+						logger.fine("Preloaded " + tmpString);
 					} catch (IOException e) {
-						logger.warn("Can't preload " + tmpString, e);
+						logger.warning("Can't preload " + tmpString);
 					}
 				}
 			}
@@ -103,7 +102,7 @@ public class ImageCache implements Runnable {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				logger.warn("Problems with sleep()", e);
+				logger.warning("Problems with sleep()");
 			}
 		}
 	}

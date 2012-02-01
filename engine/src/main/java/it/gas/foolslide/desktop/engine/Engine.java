@@ -11,6 +11,7 @@ import java.io.Reader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -23,12 +24,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Engine {
 	private static Engine INSTANCE;
-	private static Logger logger = LoggerFactory.getLogger(Engine.class);
+	private static Logger logger = Logger.getLogger(Engine.class.getName());
 
 	private EntityManagerFactory emf;
 	private EntityManager em;
@@ -42,7 +41,7 @@ public class Engine {
 
 	private Engine() {
 		initPersistence();
-		logger.debug("Engine initialized");
+		logger.fine("Engine initialized");
 	}
 
 	private void initPersistence() {
@@ -69,7 +68,7 @@ public class Engine {
 		//results = query.executeUpdate();
 		//logger.debug("Deleted " + results + " pages from the DB.");
 		tx.commit();
-		logger.debug("DB reset complete.");
+		logger.fine("DB reset complete.");
 	}
 
 	private JSONObject retrieveComics() throws IOException, ParseException {
@@ -180,10 +179,10 @@ public class Engine {
 				query = em.createNamedQuery("getComics", Comic.class);
 				list = query.getResultList();
 			} catch (IOException e) {
-				logger.warn("Can't download comics list", e);
+				logger.warning("Can't download comics list\n" + e.getMessage());
 				throw e;
 			} catch (ParseException e) {
-				logger.warn("Can't parse comics list", e);
+				logger.warning("Can't parse comics list\n" + e.getMessage());
 				throw e;
 			}
 		}
@@ -202,10 +201,10 @@ public class Engine {
 				query.setParameter(1, c.getId());
 				list = query.getResultList();
 			} catch (IOException e) {
-				logger.warn("Can't download chapters for comic " + c.getId(), e);
+				logger.warning("Can't download chapters for comic " + c.getId());
 				throw e;
 			} catch (ParseException e) {
-				logger.warn("Can't parse chapters for comic " + c.getId(), e);
+				logger.warning("Can't parse chapters for comic " + c.getId());
 				throw e;
 			}
 		}
@@ -225,10 +224,10 @@ public class Engine {
 				query.setParameter(1, c.getId());
 				l = query.getResultList();
 			} catch (IOException e) {
-				logger.debug("Can't download pages for chapter " + c.getId(), e);
+				logger.fine("Can't download pages for chapter " + c.getId());
 				throw e;
 			} catch (ParseException e) {
-				logger.debug("Can't parse pages for chapter " + c.getId(), e);
+				logger.fine("Can't parse pages for chapter " + c.getId());
 				throw e;
 			}
 		}

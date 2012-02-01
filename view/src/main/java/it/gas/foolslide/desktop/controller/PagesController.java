@@ -8,11 +8,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.jdesktop.application.Application;
 import org.jdesktop.application.Task;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PagesController {
 	private Logger log;
@@ -21,7 +20,7 @@ public class PagesController {
 	private int index;
 
 	public PagesController() {
-		log = LoggerFactory.getLogger(PagesController.class);
+		log = Logger.getLogger(PagesController.class.getName());
 		listeners = new LinkedList<PagesControllerListener>();
 		pagesList = new ArrayList<Page>();
 		index = 0;
@@ -62,7 +61,7 @@ public class PagesController {
 		} catch (IOException e) {
 			for (PagesControllerListener l : listeners)
 				l.setMessage(e.getMessage());
-			log.warn("Error retrieving the first image.", e);
+			log.warning("Error while retrieving the first image.");
 		}
 
 	}
@@ -129,12 +128,12 @@ public class PagesController {
 				l.setCurrentPageImage(i);
 				l.setLoading(false);
 			}
-			log.debug("ID: " + pagesList.get(index).getId());
+			log.fine("ID: " + pagesList.get(index).getId());
 		}
 
 		@Override
 		protected void failed(Throwable t) {
-			log.warn("Exception while loading image.", t);
+			log.warning("Exception while loading image.\n" + t.getMessage());
 			for (PagesControllerListener l : listeners) {
 				if (index < pagesList.size() - 1)
 					l.setNextButtonEnabled(false);
@@ -168,12 +167,12 @@ public class PagesController {
 				l.setCurrentPageImage(i);
 				l.setLoading(false);
 			}
-			log.debug("ID: " + pagesList.get(index).getId());
+			log.fine("ID: " + pagesList.get(index).getId());
 		}
 
 		@Override
 		protected void failed(Throwable t) {
-			log.warn("Exception while loading image.", t);
+			log.warning("Exception while loading image.\n" + t.getMessage());
 			for (PagesControllerListener l : listeners) {
 				if (index > 0)
 					l.setPrevButtonEnabled(true);

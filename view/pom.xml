@@ -55,6 +55,17 @@
 					</archive>
 				</configuration>
 			</plugin> -->
+			<plugin>
+				<groupId>org.codehaus.mojo.webstart</groupId>
+				<artifactId>webstart-maven-plugin</artifactId>
+				<version>1.0-beta-2</version>
+				<configuration>
+					<jnlp>
+						<mainClass>it.gas.foolslide.desktop.MainApp</mainClass>
+					</jnlp>
+					<outputJarVersions>true</outputJarVersions>
+				</configuration>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<!-- without this block, m2e would show an error on the pom -->
@@ -89,4 +100,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	<name>FoOlSlide Desktop</name>
+	<description>A desktop viewer for FoOlSlide.</description>
 </project>

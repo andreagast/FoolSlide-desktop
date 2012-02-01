@@ -8,13 +8,12 @@ import it.gas.foolslide.desktop.persistence.Page;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
 import org.jdesktop.application.Application;
 import org.jdesktop.application.Task;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class MainController {
 	private List<MainControllerListener> listeners;
@@ -24,7 +23,7 @@ public class MainController {
 	public MainController() {
 		listeners = new LinkedList<MainControllerListener>();
 		engine = Engine.getInstance();
-		logger = LoggerFactory.getLogger(this.getClass());
+		logger = Logger.getLogger(MainController.class.getName());
 	}
 
 	public void addListener(MainControllerListener l) {
@@ -209,7 +208,7 @@ public class MainController {
 		
 		@Override
 		protected void failed(Throwable t) {
-			logger.warn("Can't download comics list.", t);
+			logger.warning("Can't download comics list.\n" + t.getMessage());
 			fireShowPopupMessage("Can't download comics list.",
 					JOptionPane.ERROR_MESSAGE);
 			requestExit();
@@ -240,7 +239,7 @@ public class MainController {
 		
 		@Override
 		protected void failed(Throwable t) {
-			logger.warn("Can't download chapters list.", t);
+			logger.warning("Can't download chapters list.\n" + t.getMessage());
 			fireShowPopupMessage("Can't download chapters list.",
 					JOptionPane.ERROR_MESSAGE);
 			fireShowComicsPane();
@@ -271,7 +270,7 @@ public class MainController {
 		
 		@Override
 		protected void failed(Throwable t) {
-			logger.warn("Can't download pages list.", t);
+			logger.warning("Can't download pages list.\n" + t.getMessage());
 			fireShowPopupMessage("Can't download pages list.",
 					JOptionPane.ERROR_MESSAGE);
 			fireShowChaptersPane();
