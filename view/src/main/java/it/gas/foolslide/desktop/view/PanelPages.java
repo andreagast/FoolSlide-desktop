@@ -63,34 +63,28 @@ public class PanelPages extends AbstractMainPanel implements PagesControllerList
 		add(scroll);
 	}
 
-	@Override
 	public void setPagesList(List<Page> l) {
 		pController.setPagesList(l);
 	}
 
-	@Override
 	public void setNextButtonEnabled(boolean b) {
 		//btnNext.setEnabled(b);
 	}
 
-	@Override
 	public void setPrevButtonEnabled(boolean b) {
 		//btnPrev.setEnabled(b);
 	}
 
-	@Override
 	public void setCurrentPageNumber(int n) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void setPageCountNumber(int n) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void setCurrentPageImage(Image i) {
 		lblImage.setText("");
 		lblImage.setIcon(new ImageIcon(i));
@@ -98,7 +92,6 @@ public class PanelPages extends AbstractMainPanel implements PagesControllerList
 		scroll.getHorizontalScrollBar().setValue(0);
 	}
 
-	@Override
 	public void setMessage(String str) {
 		lblImage.setText(str);
 		lblImage.setIcon(null);
@@ -106,7 +99,6 @@ public class PanelPages extends AbstractMainPanel implements PagesControllerList
 		scroll.getHorizontalScrollBar().setValue(0);
 	}
 
-	@Override
 	public void setLoading(boolean b) {}
 	
 }

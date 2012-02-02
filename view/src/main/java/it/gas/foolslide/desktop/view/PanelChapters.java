@@ -40,7 +40,6 @@ public class PanelChapters extends AbstractMainPanel {
 		scroll = new JScrollPane(chaptersList);
 		add(scroll);
 		chaptersList.addListSelectionListener(new ListSelectionListener() {
-			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				btnPages.setEnabled(! chaptersList.isSelectionEmpty());
 			}
@@ -52,7 +51,6 @@ public class PanelChapters extends AbstractMainPanel {
 		btnComics = new JButton("Comic's list");
 		pnlBottom.add(btnComics);
 		btnComics.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				controller.showComics();
 			}
@@ -64,7 +62,6 @@ public class PanelChapters extends AbstractMainPanel {
 		btnPages.setEnabled(false);
 		pnlBottom.add(btnPages);
 		btnPages.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				//TODO: migliorare
 				controller.showPages((Chapter) chaptersList.getSelectedValue());

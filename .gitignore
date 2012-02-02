@@ -1,7 +1,9 @@
 .DS_Store
-*/derby.log
-*/target
+derby.log
+target
 .classpath
 .project
-*/.settings
+.settings
 velocity.log
+*/bin
+view/.settings/org.eclipse.jdt.core.prefs

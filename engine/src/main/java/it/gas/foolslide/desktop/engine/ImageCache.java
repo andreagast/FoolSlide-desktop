@@ -79,7 +79,6 @@ public class ImageCache implements Runnable {
 		return ImageIO.read(f);
 	}
 
-	@Override
 	public void run() {
 		logger.fine("ImageCache preloader started.");
 		String tmpString;

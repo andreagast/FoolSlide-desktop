@@ -47,7 +47,6 @@ public class PanelPagesOverlay extends JPanel implements PagesControllerListener
 		btnChapters.addMouseListener(this);
 		pnlBottom.add(btnChapters);
 		btnChapters.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				mController.showChapters(null);
 				mController.showOverlay(false);
@@ -60,7 +59,6 @@ public class PanelPagesOverlay extends JPanel implements PagesControllerListener
 		btnPrev.addMouseListener(this);
 		pnlBottom.add(btnPrev);
 		btnPrev.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				pController.requestPrevPage();
 			}
@@ -70,7 +68,6 @@ public class PanelPagesOverlay extends JPanel implements PagesControllerListener
 		btnNext.addMouseListener(this);
 		pnlBottom.add(btnNext);
 		btnNext.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				pController.requestNextPage();
 			}
@@ -86,50 +83,38 @@ public class PanelPagesOverlay extends JPanel implements PagesControllerListener
 		
 	}
 
-	@Override
 	public void setNextButtonEnabled(boolean b) {
 		btnNext.setEnabled(b);
 	}
 
-	@Override
 	public void setPrevButtonEnabled(boolean b) {
 		btnPrev.setEnabled(b);
 	}
 
-	@Override
 	public void setCurrentPageNumber(int n) {}
 
-	@Override
 	public void setPageCountNumber(int n) {}
 
-	@Override
 	public void setCurrentPageImage(Image i) {}
 
-	@Override
 	public void setMessage(String str) {}
 
-	@Override
 	public void setLoading(boolean b) {
 		loadBar.setIndeterminate(b);
 	}
 
-	@Override
 	public void mouseClicked(MouseEvent e) {}
 
-	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		mController.showOverlay(true);
 	}
 
-	@Override
 	public void mouseExited(MouseEvent arg0) {
 		mController.showOverlay(false);
 	}
 
-	@Override
 	public void mousePressed(MouseEvent e) {}
 
-	@Override
 	public void mouseReleased(MouseEvent e) {}
 	
 }

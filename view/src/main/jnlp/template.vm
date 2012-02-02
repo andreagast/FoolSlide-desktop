@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.5+" codebase="http://dl.dropbox.com/u/22433093/projects/FoOlSlide-desktop" href="http://dl.dropbox.com/u/22433093/projects/FoOlSlide-desktop.jnlp">
+<information>
+	<title>$project.Name</title>
+	<vendor>bkmastor</vendor>
+	<description>$project.Description</description>
+	<offline-allowed/>
+</information>
+<security>
+	<all-permissions/>
+</security>
+<resources>
+		<java version="1.6+"/>
+		$dependencies
+</resources>
+<application-desc
+         name="$project.Name"
+         main-class="$mainClass"
+         width="700"
+         height="400">
+    </application-desc>
+</jnlp>

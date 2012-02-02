@@ -69,41 +69,32 @@ public class MainWindow extends JFrame implements MainControllerListener {
 		setGlassPane(overlay);
 	}
 
-	@Override
 	public void showComicsPane() {
 		layout.show(getContentPane(), COMICS);
 	}
 
-	@Override
 	public void showChaptersPane() {
 		layout.show(getContentPane(), CHAPTERS);
 	}
 
-	@Override
 	public void showPagesPane() {
 		layout.show(getContentPane(), PAGES);
 	}
 	
-	@Override
 	public void showOverlay(boolean b) {
 		overlay.setVisible(b);
 	}
 
-	@Override
 	public void setComicsList(List<Comic> l) {}
 
-	@Override
 	public void setChaptersList(List<Chapter> l) {}
 
-	@Override
 	public void setPagesList(List<Page> l) {}
 
-	@Override
 	public void showLoadingPane() {
 		layout.show(getContentPane(), LOADING);
 	}
 	
-	@Override
 	public void showPopupMessage(String str, int type) {
 		JOptionPane.showMessageDialog(this, str, getTitle(), type);
 	}
