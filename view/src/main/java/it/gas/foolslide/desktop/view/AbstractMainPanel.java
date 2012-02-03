@@ -1,12 +1,13 @@
 package it.gas.foolslide.desktop.view;
 
+import it.gas.foolslide.desktop.persistence.Comic;
+
 import java.util.List;
 
 import javax.swing.JPanel;
 
 import it.gas.foolslide.desktop.controller.MainControllerListener;
 import it.gas.foolslide.desktop.persistence.Chapter;
-import it.gas.foolslide.desktop.persistence.Comic;
 import it.gas.foolslide.desktop.persistence.Page;
 
 public abstract class AbstractMainPanel extends JPanel implements MainControllerListener {

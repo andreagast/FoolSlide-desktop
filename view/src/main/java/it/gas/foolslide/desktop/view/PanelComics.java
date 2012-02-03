@@ -1,5 +1,7 @@
 package it.gas.foolslide.desktop.view;
 
+import it.gas.foolslide.desktop.persistence.Comic;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -9,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import it.gas.foolslide.desktop.controller.MainController;
-import it.gas.foolslide.desktop.persistence.Comic;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;

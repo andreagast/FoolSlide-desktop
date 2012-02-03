@@ -1,5 +1,7 @@
 package it.gas.foolslide.desktop.view;
 
+import it.gas.foolslide.desktop.persistence.Comic;
+
 import java.awt.CardLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -12,7 +14,6 @@ import it.gas.foolslide.desktop.controller.MainController;
 import it.gas.foolslide.desktop.controller.MainControllerListener;
 import it.gas.foolslide.desktop.controller.PagesController;
 import it.gas.foolslide.desktop.persistence.Chapter;
-import it.gas.foolslide.desktop.persistence.Comic;
 import it.gas.foolslide.desktop.persistence.Page;
 
 public class MainWindow extends JFrame implements MainControllerListener {

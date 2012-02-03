@@ -1,16 +1,9 @@
 package it.gas.foolslide.desktop.persistence;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-@Entity
-@NamedQueries({
-		@NamedQuery(name = "getPagesById", query = "SELECT p FROM Page p WHERE p.chapter_id = ?1 ORDER BY p.filename"),
-		@NamedQuery(name = "delPages", query = "DELETE FROM Page p") })
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Page {
-	@Id
 	private int id;
 	private int chapter_id;
 	private String filename;

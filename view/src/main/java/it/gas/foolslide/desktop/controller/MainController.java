@@ -1,9 +1,9 @@
 package it.gas.foolslide.desktop.controller;
 
+import it.gas.foolslide.desktop.persistence.Comic;
 import it.gas.foolslide.desktop.engine.Engine;
 import it.gas.foolslide.desktop.engine.ImageCache;
 import it.gas.foolslide.desktop.persistence.Chapter;
-import it.gas.foolslide.desktop.persistence.Comic;
 import it.gas.foolslide.desktop.persistence.Page;
 
 import java.util.LinkedList;

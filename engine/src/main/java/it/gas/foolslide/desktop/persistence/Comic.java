@@ -1,30 +1,20 @@
 package it.gas.foolslide.desktop.persistence;
 
+
 import it.gas.foolslide.desktop.engine.ImageCache;
 
 import java.awt.Image;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Transient;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-@Entity
-@NamedQueries({
-		@NamedQuery(name = "getComics", query = "SELECT c FROM Comic c ORDER BY c.name"),
-		@NamedQuery(name = "delComics", query = "DELETE FROM Comic c") })
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Comic {
-	@Id
 	private int id;
 	private String name;
-	@Column(length = 5000)
 	private String description;
 	private String thumb_url;
-	@Transient
 	private Image thumb;
 
 	public int getId() {
