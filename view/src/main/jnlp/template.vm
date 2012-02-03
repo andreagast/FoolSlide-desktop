@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.5+" codebase="http://dl.dropbox.com/u/22433093/projects/FoOlSlide-desktop" href="http://dl.dropbox.com/u/22433093/projects/FoOlSlide-desktop.jnlp">
+<jnlp spec="1.5+" codebase="http://dl.dropbox.com/u/22433093/projects/FoOlSlide-desktop"
+	href="http://dl.dropbox.com/u/22433093/projects/FoOlSlide-desktop/launch.jnlp">
 <information>
 	<title>$project.Name</title>
 	<vendor>bkmastor</vendor>

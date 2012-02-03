@@ -45,7 +45,8 @@
 					<jnlp>
 						<mainClass>it.gas.foolslide.desktop.MainApp</mainClass>
 					</jnlp>
-					<outputJarVersions>true</outputJarVersions>
+					<outputJarVersions>false</outputJarVersions>
+					<makeArchive>false</makeArchive>
 				</configuration>
 			</plugin>
 			<plugin>
