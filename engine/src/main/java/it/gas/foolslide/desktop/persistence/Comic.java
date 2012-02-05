@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Comic {
+public class Comic implements Comparable<Comic> {
 	private int id;
 	private String name;
 	private String description;
@@ -69,6 +69,11 @@ public class Comic {
 	@Override
 	public String toString() {
 		return getName();
+	}
+
+	@Override
+	public int compareTo(Comic arg0) {
+		return this.name.compareTo(arg0.name);
 	}
 
 }

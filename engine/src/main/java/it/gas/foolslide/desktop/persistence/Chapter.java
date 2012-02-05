@@ -3,7 +3,7 @@ package it.gas.foolslide.desktop.persistence;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Chapter {
+public class Chapter implements Comparable<Chapter> {
 	private int id;
 	private int comic_id;
 	private int team_id;
@@ -90,16 +90,25 @@ public class Chapter {
 	public String toString() {
 		StringBuilder build = new StringBuilder();
 		build.append("Vol. ");
-		build.append(getVolume());
+		build.append(volume);
 		build.append(" Chapter ");
-		build.append(getChapter());
-		if (getSubchapter() != 0) {
+		build.append(chapter);
+		if (subchapter != 0) {
 			build.append('.');
 			build.append(getSubchapter());
 		}
 		build.append(": ");
-		build.append(getName());
+		build.append(name);
 		return build.toString();
+	}
+
+	@Override
+	public int compareTo(Chapter o) {
+		if (this.volume != o.volume)
+			return this.volume - o.volume;
+		if (this.chapter != o.chapter)
+			return this.chapter - o.chapter;
+		return this.subchapter - o.subchapter;
 	}
 
 }

@@ -3,7 +3,7 @@ package it.gas.foolslide.desktop.persistence;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Page {
+public class Page implements Comparable<Page> {
 	private int id;
 	private int chapter_id;
 	private String filename;
@@ -104,6 +104,11 @@ public class Page {
 
 	public void setThumbwidth(int thumbwidth) {
 		this.thumbwidth = thumbwidth;
+	}
+
+	@Override
+	public int compareTo(Page o) {
+		return this.filename.compareTo(o.filename);
 	}
 
 }

@@ -75,7 +75,7 @@ public class PanelComics extends AbstractMainPanel {
 		detailsPane.add(lblImage);
 		
 		lblTitle = new JLabel();
-		lblTitle.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		Font f = lblTitle.getFont();
 		lblTitle.setFont(new Font(f.getFamily(), Font.BOLD, f.getSize()));
 		detailsPane.add(lblTitle, "growx, pushx, wrap");
